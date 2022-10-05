@@ -12,7 +12,7 @@
     <!--  Essential META Tags -->
     <meta
       property="og:title"
-      content="Subsecond Playground | Structured Code Modification Tool"
+      content="Subsecond Playground | Structured Code Modification"
     />
     <meta
       property="og:image"
@@ -41,7 +41,22 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Subsecond Playground | Structured Code Modification Tool</title>
+    <!-- yeah, might as well have GA in here -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-SERC6FHJRJ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-SERC6FHJRJ');
+    </script>
+
+    <title>Subsecond Playground | Structured Code Modification</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
