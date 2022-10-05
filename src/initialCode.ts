@@ -1,25 +1,21 @@
+export const initialBefore = `// This is the source code for the app you are currently using
+
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Editor, { DiffEditor, useMonaco } from '@monaco-editor/react';
 import S from 'subsecond';
 import { Position, editor } from 'monaco-editor';
-import { initialBefore, initialSubsecond } from './initialCode';
-
-// import { format as prettierFormat } from 'prettier';
-// import prettierTypescript from 'prettier/parser-typescript';
 
 (window as any).S = S;
 
-const Container = styled.div``;
+const Container = styled.div\`\`;
 
-const Content = styled.div`
+const Content = styled.div\`
   display: flex;
   flex-direction: 'row';
-`;
+\`;
 
-const SUBSECOND_D_TS = `
-declare type SubsecondThis = Subsecond & [key: SubsecondNode];
-declare type Selector = string | Record<string, string> | SubsecondNode[] | SubsecondNode;
+const SUBSECOND_D_TS = \`
 interface Subsecond extends Iterable<SubsecondNode> {
     (selector?: Selector, context?: Subsecond): Subsecond;
     new (selector?: Selector, context?: Subsecond): Subsecond;
@@ -46,25 +42,9 @@ interface Subsecond extends Iterable<SubsecondNode> {
     esNodes(): Object[];
     toNewFile(fileName: string): Subsecond;
 }
-declare function Subsecond(selector?: Selector, context?: Subsecond): Subsecond;
-declare namespace Subsecond {
-    var fn: Subsecond;
-    var prototype: Subsecond;
-    var sourceTexts: Record<string, string>;
-    var sourceFiles: Record<string, Object>;
-    var load: (this: typeof Subsecond, files: Record<string, string>) => typeof Subsecond;
-    var print: () => Record<string, string>;
-}
-declare type SubsecondNode = {
-    esNode: Object;
-    fileName: string;
-};
-interface init {
-    (this: SubsecondThis, selector?: Selector, context?: Subsecond): void;
-}
-declare var init: any;
+declare type Selector = string | Record<string, string> | SubsecondNode[] | SubsecondNode;
 declare const S: Subsecond;
-`;
+\`;
 
 // https://gist.github.com/loilo/f689c8be89d5628109aebee515b63555
 function serializeConsoleLog(...args: any[]) {
@@ -117,7 +97,7 @@ function serializeConsoleLog(...args: any[]) {
     if (typeof arg === 'string') return arg;
 
     if (S.isSubsecondObject(arg)) {
-      return JSON.stringify(arg.map((a) => `${a.type()}.${a.name()}`));
+      return JSON.stringify(arg.map((a) => \`\${a.type()}.\${a.name()}\`));
     }
     let stringifiedObject: string;
     try {
@@ -132,43 +112,38 @@ function serializeConsoleLog(...args: any[]) {
   return result.join(' ');
 }
 
-const TopBarContainer = styled.div`
+const TopBarContainer = styled.div\`
   height: 49px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-`;
+\`;
 
-const TopBarSection = styled.div`
+const TopBarSection = styled.div\`
   display: flex;
   flex-direction: row;
   align-items: center;
-`;
+\`;
 
-const Title = styled.h1`
+const Title = styled.h1\`
   margin: 0;
   padding-left: 16px;
   padding-right: 16px;
   font-size: 24px;
-`;
+\`;
 
-const Link = styled.a`
+const Link = styled.a\`
   margin-right: 16px;
-`;
+\`;
 
 function TopBar({}) {
   return (
     <TopBarContainer>
       <TopBarSection>
         <Title>Subsecond Playground</Title>
-        <Link
-          target="_blank"
-          href="https://github.com/Subsecond-LLC/Subsecond#documentation"
-        >
-          Documentation
-        </Link>
+        <Link href="#">Documentation</Link>
       </TopBarSection>
       <TopBarSection>
         <Link
@@ -209,23 +184,23 @@ function SubsecondWindow({
   );
 }
 
-const ConsoleContainer = styled.div`
+const ConsoleContainer = styled.div\`
   height: 20vh;
   width: 50vw;
   z-index: 10;
   background-color: white;
   display: flex;
   flex-direction: column;
-`;
+\`;
 
-const ConsoleLines = styled.div`
+const ConsoleLines = styled.div\`
   overflow-y: scroll;
   height: 100%;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-`;
+\`;
 
-const ConsoleLine = styled.div`
+const ConsoleLine = styled.div\`
   padding: 2px;
   font-size: 14px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -234,7 +209,7 @@ const ConsoleLine = styled.div`
   padding-left: 16px;
   padding-right: 16px;
   overflow-wrap: anywhere;
-`;
+\`;
 
 function Console({ consoleLines }: { consoleLines: string[] }) {
   return (
@@ -246,7 +221,7 @@ function Console({ consoleLines }: { consoleLines: string[] }) {
       </TabsContainer>
       <ConsoleLines>
         {consoleLines.map((consoleLine, i) => (
-          <ConsoleLine key={`${consoleLine}-${i}`}>{consoleLine}</ConsoleLine>
+          <ConsoleLine key={\`\${consoleLine}-\${i}\`}>{consoleLine}</ConsoleLine>
         ))}
       </ConsoleLines>
     </ConsoleContainer>
@@ -259,11 +234,11 @@ enum Tab {
   AFTER = 'AFTER',
 }
 
-const SourceWindowContainer = styled.div`
+const SourceWindowContainer = styled.div\`
   position: relative;
   width: 50wh;
   height: calc(100vh - 80px);
-`;
+\`;
 
 function SourceWindow({
   beforeCode,
@@ -289,9 +264,7 @@ function SourceWindow({
               (acc, lineChange) =>
                 acc +
                 1 +
-                (lineChange.originalEndLineNumber === 0
-                  ? lineChange.originalStartLineNumber
-                  : lineChange.originalEndLineNumber) -
+                lineChange.originalEndLineNumber -
                 lineChange.originalStartLineNumber,
               0
             ) ?? 0
@@ -320,12 +293,12 @@ function SourceWindow({
   );
 }
 
-const TabsContainer = styled.div`
+const TabsContainer = styled.div\`
   height: 30px;
   text-align: left;
-`;
+\`;
 
-const TabButton = styled.button<{ active: boolean }>`
+const TabButton = styled.button<{ active: boolean }>\`
   height: 25px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-bottom: none;
@@ -338,10 +311,10 @@ const TabButton = styled.button<{ active: boolean }>`
   }
 
   background-color: white;
-  ${({ active }) => active && `background-color: #DDD`}
-`;
+  \${({ active }) => active && \`background-color: #DDD\`}
+\`;
 
-const Badge = styled.span`
+const Badge = styled.span\`
   background-color: #38a169;
   color: white;
   font-weight: bold;
@@ -349,7 +322,7 @@ const Badge = styled.span`
   border-radius: 8px;
   padding: 1px 4px;
   margin-top: -2px;
-`;
+\`;
 
 function SourceTabs({
   tab,
@@ -446,11 +419,11 @@ function AfterWindow({ afterCode }: { afterCode: string }) {
 
 function App() {
   const [subsecondCode, setSubsecondCode] = useState<string>(
-    localStorage.getItem('subsecondCode') ?? initialSubsecond
+    localStorage.getItem('subsecondCode') ?? ''
   );
   const [consoleLines, setConsoleLines] = useState<string[]>([]);
   const [beforeCode, setBeforeCode] = useState<string>(
-    localStorage.getItem('beforeCode') ?? initialBefore
+    localStorage.getItem('beforeCode') ?? ''
   );
   const [afterCode, setAfterCode] = useState<string>('');
 
@@ -486,21 +459,21 @@ function App() {
           ),
           contents: [
             {
-              value: `Type: \`${node.type()}${
-                node.name() !== '' ? `.${node.name()}` : ''
-              }\``,
+              value: \`Type: \\\`\${node.type()}\${
+                node.name() !== '' ? \`.\${node.name()}\` : ''
+              }\\\`\`,
             },
             {
-              value: `Parent type: \`${node.parent().type()}${
-                node.parent().name() !== '' ? `.${node.parent().name()}` : ''
-              }\``,
+              value: \`Parent type: \\\`\${node.parent().type()}\${
+                node.parent().name() !== '' ? \`.\${node.parent().name()}\` : ''
+              }\\\`\`,
             },
             {
-              value: `Grandparent type: \`${node.parent().parent().type()}${
+              value: \`Grandparent type: \\\`\${node.parent().parent().type()}\${
                 node.parent().parent().name() !== ''
-                  ? `.${node.parent().parent().name()}`
+                  ? \`.\${node.parent().parent().name()}\`
                   : ''
-              }\``,
+              }\\\`\`,
             },
           ],
         };
@@ -544,18 +517,6 @@ function App() {
 
           eval(subsecondCode);
 
-          // TODO(jones) prettier on new version...
-          // setAfterCode(
-          //   prettierFormat(S.print()['index.tsx'], {
-          //     parser: 'typescript',
-          //     plugins: [prettierTypescript],
-          //     printWidth: 80,
-          //     singleQuote: true,
-          //     trailingComma: 'es5',
-          //     tabWidth: 2,
-          //     useTabs: false,
-          //   })
-          // );
           setAfterCode(S.print()['index.tsx']);
         } catch (e) {
           console.log(e);
@@ -592,3 +553,19 @@ function App() {
 }
 
 export default App;
+`;
+
+export const initialSubsecond = `
+// Sort JSX element attributes alphabetically
+S('JSXOpeningElement').each((openingElement) => {
+  const attributes = openingElement.children('JSXAttribute');
+  if(attributes.length < 2) return;
+
+  const sortedAttributes = attributes.map((attribute) => attribute.text()).sort();
+  console.log(openingElement.name(), sortedAttributes);
+
+  attributes.each((attribute, i) => {
+    attribute.text(sortedAttributes[i])
+  });
+})
+`;
