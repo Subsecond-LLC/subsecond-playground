@@ -277,29 +277,6 @@ function SourceWindow({
   const [tab, setTab] = useState<Tab>(Tab.BEFORE);
   const [lines, setLines] = useState<number>(0);
 
-  const diffEditorRef = useRef<editor.IStandaloneDiffEditor>();
-
-  useEffect(() => {
-    setTimeout(
-      () =>
-        setLines(
-          diffEditorRef.current
-            ?.getLineChanges()
-            ?.reduce(
-              (acc, lineChange) =>
-                acc +
-                1 +
-                (lineChange.originalEndLineNumber === 0
-                  ? lineChange.originalStartLineNumber
-                  : lineChange.originalEndLineNumber) -
-                lineChange.originalStartLineNumber,
-              0
-            ) ?? 0
-        ),
-      300
-    );
-  }, [beforeCode, afterCode, diffEditorRef]);
-
   return (
     <SourceWindowContainer>
       <SourceTabs tab={tab} onTabChange={(tab) => setTab(tab)} lines={lines} />
@@ -314,7 +291,7 @@ function SourceWindow({
       <DiffWindow
         beforeCode={beforeCode}
         afterCode={afterCode}
-        diffEditorRef={diffEditorRef}
+        onLinesChange={(lines) => setLines(lines)}
       />
     </SourceWindowContainer>
   );
@@ -409,14 +386,34 @@ function BeforeWindow({
 function DiffWindow({
   beforeCode,
   afterCode,
-  diffEditorRef,
+  onLinesChange,
 }: {
   beforeCode: string;
   afterCode: string;
-  diffEditorRef: React.MutableRefObject<
-    editor.IStandaloneDiffEditor | undefined
-  >;
+  onLinesChange: (lines: number) => void;
 }) {
+  const diffEditorRef = useRef<editor.IStandaloneDiffEditor>();
+
+  // TODO(jones) just use an external library for the garbage...
+  useEffect(() => {
+    setTimeout(() => {
+      onLinesChange(
+        diffEditorRef.current
+          ?.getLineChanges()
+          ?.reduce(
+            (acc, lineChange) =>
+              acc +
+              1 +
+              (lineChange.originalEndLineNumber === 0
+                ? lineChange.originalStartLineNumber
+                : lineChange.originalEndLineNumber) -
+              lineChange.originalStartLineNumber,
+            0
+          ) ?? 0
+      );
+    }, 300);
+  }, [beforeCode, afterCode]);
+
   return (
     <DiffEditor
       height="calc(100vh - 80px)"
@@ -426,6 +423,28 @@ function DiffWindow({
       modified={afterCode}
       onMount={(editor) => {
         diffEditorRef.current = editor;
+
+        function ch() {
+          if (diffEditorRef.current?.getLineChanges() == null) {
+            setTimeout(ch, 100);
+            return;
+          }
+          onLinesChange(
+            diffEditorRef.current
+              ?.getLineChanges()
+              ?.reduce(
+                (acc, lineChange) =>
+                  acc +
+                  1 +
+                  (lineChange.originalEndLineNumber === 0
+                    ? lineChange.originalStartLineNumber
+                    : lineChange.originalEndLineNumber) -
+                  lineChange.originalStartLineNumber,
+                0
+              ) ?? 0
+          );
+        }
+        ch();
       }}
       options={{ renderSideBySide: false, readOnly: true }}
     />
