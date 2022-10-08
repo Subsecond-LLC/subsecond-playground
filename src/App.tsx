@@ -163,10 +163,7 @@ function TopBar({}) {
     <TopBarContainer>
       <TopBarSection>
         <Title>Subsecond Playground</Title>
-        <Link
-          target="_blank"
-          href="https://github.com/Subsecond-LLC/Subsecond#documentation"
-        >
+        <Link target="_blank" href="https://playground.subsecond.app/docs">
           Documentation
         </Link>
       </TopBarSection>
