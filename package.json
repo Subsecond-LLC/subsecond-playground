@@ -24,7 +24,7 @@
     "react-scripts": "^5.0.1",
     "stream-browserify": "^3.0.0",
     "styled-components": "^5.3.6",
-    "subsecond": "^0.1.13",
+    "subsecond": "^0.1.14",
     "typescript": "^4.8.4",
     "util": "^0.12.4",
     "web-vitals": "^2.1.4"
