@@ -33,6 +33,9 @@ interface Subsecond extends Iterable<SubsecondNode> {
     attr(name: string): string | boolean | undefined;
     before(newNode: string): Subsecond;
     after(newNode: string): Subsecond;
+    prepend(newNode: string): Subsecond;
+    append(newNode: string): Subsecond;
+    insertAt(position: number, newNode: string): Subsecond;
     lines(): number;
     eq(index: number): Subsecond;
     length: number;

@@ -8599,10 +8599,10 @@ stylehacks@^5.1.0:
     browserslist "^4.16.6"
     postcss-selector-parser "^6.0.4"
 
-subsecond@^0.1.14:
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/subsecond/-/subsecond-0.1.14.tgz#991f49ceb75d591c517635bfa2423452386faa06"
-  integrity sha512-EUhcwqWAGSt/5wQsM+fa0pbS+ETSFw8HaCuMFaHD80M2OzTpsOWeVuM7wtytlsrc48GXFeWRjSKFsRtoHFw3IQ==
+subsecond@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/subsecond/-/subsecond-0.2.0.tgz#ba32b9aef0e04df88c55764b1d4de5131e7a1560"
+  integrity sha512-tqYTZtaZQ9vGoolgMpOIWitsH7bZFcUDHtNuhpfPI+IR2RXUcBnK21+zFlu0dPocAf/AtjGcRijq0MzF/ocNDQ==
   dependencies:
     "@typescript-eslint/typescript-estree" "^5.38.0"
 
